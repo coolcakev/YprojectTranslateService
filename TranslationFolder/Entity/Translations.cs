@@ -1,16 +1,10 @@
+using y_nuget.RabbitMq;
+using y_nuget.Sources;
+
 namespace YprojectTranslateService.TranslationFolder.Entity;
 
-//TODO винести енамку в пакет 
-public enum Language
+public class Translation: BaseEntity
 {
-    en,
-    ua,
-    ru,
-}
-
-public class Translation
-{
-    public Guid Id { get; set; }
     public string LocalizationKey { get; set; }
     public string Namespace { get; set; }
     public Language Language { get; set; }

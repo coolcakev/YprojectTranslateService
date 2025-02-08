@@ -7,16 +7,10 @@ namespace YprojectTranslateService.TranslationFolder.Query.GetAllLocalization;
 
 public record GetAllLocalizationRequest() : IHttpRequest<GetAllLocalizationResponse>;
 
-//TODO навіщо цей респонс
+// респонс для зручності щоб не переписувати багато разів цю структуру
 public class GetAllLocalizationResponse
 {
     public Dictionary<string, Dictionary<string, Dictionary<string, string>>> Data { get; set; }
-
-    //TODO а без конструктора не можна?
-    public GetAllLocalizationResponse(Dictionary<string, Dictionary<string, Dictionary<string, string>>> data)
-    {
-        Data = data;
-    }
 }
 
 public class Handler : IRequestHandler<GetAllLocalizationRequest, Response<GetAllLocalizationResponse>> 
@@ -28,12 +22,9 @@ public class Handler : IRequestHandler<GetAllLocalizationRequest, Response<GetAl
         _dbContext = dbContext;
     }
 
-    //TODO do lazy loading client side send you language and namespace
     public async Task<Response<GetAllLocalizationResponse>> Handle(GetAllLocalizationRequest request, CancellationToken cancellationToken)
     {
         var translations = await _dbContext.Translations
-            //TODO навіщо тут есноутрекінг
-            .AsNoTracking()
             .ToListAsync(cancellationToken);
         
         var result = translations
@@ -51,6 +42,9 @@ public class Handler : IRequestHandler<GetAllLocalizationRequest, Response<GetAl
                     )
             );
 
-        return SuccessResponses.Ok(new GetAllLocalizationResponse(result));
+        return SuccessResponses.Ok(new GetAllLocalizationResponse
+        {
+            Data = result
+        });
     }
 }

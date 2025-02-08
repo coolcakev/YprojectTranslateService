@@ -1,6 +1,7 @@
 using y_nuget;
 using y_nuget.RabbitMq;
 using YprojectTranslateService.Database;
+using YprojectTranslateService.RabbitMq;
 
 namespace YprojectTranslateService.Configurations;
 
